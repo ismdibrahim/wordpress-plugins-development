@@ -1,0 +1,42 @@
+<?php 
+/**
+ * Plugin Name: Our First Plugin
+ * plugin URI:https://mdibrahim.net/our-first-plugin
+ * Description: This is my first plugin
+ * Version: 1.0.0
+ * Requires at least: 5.2
+ * Requires PHP: 7.2
+ * Author: Ibrahim Hossen
+ * Author URI: https://mdibrahim.net
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: our-first-plugin
+ * Domain Path: /languages
+*/
+
+// Change post content by filter hook
+add_filter('the_content', 'ofp_change_content');
+function ofp_change_content($content) {
+    // The function work only post 
+    if(!is_singular('post')){
+        return $content;
+    }
+    $id = get_the_ID();
+    $custom_content = '<div style="border:1px solid #ddd;padding:10px;margin:20px 0px;">';
+    $custom_content .= '<p>Post ID: '.$id.'</p>';
+    $custom_content .= '<p>This is my custom content</p>';
+    $custom_content .= '</div>';
+    $content .= $custom_content;
+    return $content;
+}
+
+// Change post title by filter hook 
+add_filter('the_title', 'ofp_change_title');
+function ofp_change_title($title){
+    // The function work only page 
+    if(!is_page()){
+        return $title;
+    }
+    $title = $title . "!!!";
+    return $title;
+}
